@@ -8,8 +8,8 @@ public class LocationEntityConfiguration : IEntityTypeConfiguration<LocationEnti
 {
     public void Configure(EntityTypeBuilder<LocationEntity> builder)
     {
-        builder.HasOne(l => l.Tenant).WithMany(t => t.Locations).HasForeignKey(l => l.TenantId);
-        builder.HasOne(l => l.LocationType).WithMany(lt => lt.Locations).HasForeignKey(l => l.LocationTypeId);
-        builder.HasOne(l => l.ParentLocation).WithMany(l => l.ChildLocations).HasForeignKey(l => l.ParentLocationId);
+        builder.HasOne(l => l.Tenant).WithMany(t => t.Locations).HasForeignKey(l => l.TenantId).OnDelete(DeleteBehavior.NoAction);
+        builder.HasOne(l => l.LocationType).WithMany(lt => lt.Locations).HasForeignKey(l => l.LocationTypeId).OnDelete(DeleteBehavior.NoAction);
+        builder.HasOne(l => l.ParentLocation).WithMany(l => l.ChildLocations).HasForeignKey(l => l.ParentLocationId).OnDelete(DeleteBehavior.NoAction);
     }
 }

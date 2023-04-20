@@ -8,6 +8,6 @@ public class TagEntityConfiguration : IEntityTypeConfiguration<TagEntity>
 {
     public void Configure(EntityTypeBuilder<TagEntity> builder) 
     { 
-        builder.HasOne(t => t.Tenant).WithMany(t => t.Tags).HasForeignKey(t => t.TenantId);
+        builder.HasOne(t => t.Tenant).WithMany(t => t.Tags).HasForeignKey(t => t.TenantId).OnDelete(DeleteBehavior.NoAction);
     }
 }

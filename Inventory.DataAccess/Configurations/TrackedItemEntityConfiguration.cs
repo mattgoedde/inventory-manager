@@ -8,7 +8,7 @@ public class TrackedItemEntityConfiguration : IEntityTypeConfiguration<TrackedIt
 {
     public void Configure(EntityTypeBuilder<TrackedItemEntity> builder)
     {
-        builder.HasOne(i => i.Tenant).WithMany(t => t.TrackedItems).HasForeignKey(i => i.TenantId);
-        builder.HasOne(i => i.Location).WithMany(l => l.TrackedItems).HasForeignKey(i => i.LocationId);
+        builder.HasOne(i => i.Tenant).WithMany(t => t.TrackedItems).HasForeignKey(i => i.TenantId).OnDelete(DeleteBehavior.NoAction);
+        builder.HasOne(i => i.Location).WithMany(l => l.TrackedItems).HasForeignKey(i => i.LocationId).OnDelete(DeleteBehavior.NoAction);
     }
 }

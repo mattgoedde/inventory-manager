@@ -8,6 +8,6 @@ public class LocationTypeEntityConfiguration : IEntityTypeConfiguration<Location
 {
     public void Configure(EntityTypeBuilder<LocationTypeEntity> builder)
     {
-        builder.HasOne(lt => lt.Tenant).WithMany(t => t.LocationTypes).HasForeignKey(lt => lt.TenantId);
+        builder.HasOne(lt => lt.Tenant).WithMany(t => t.LocationTypes).HasForeignKey(lt => lt.TenantId).OnDelete(DeleteBehavior.NoAction);
     }
 }

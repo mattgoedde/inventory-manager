@@ -1,27 +1,35 @@
 using Inventory.DataAccess;
+using Microsoft.Identity.Web;
 using MudBlazor.Services;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
-
-var clientId = builder.Configuration["UiSettings:MicrosoftClientId"]!;
-var clientSecret = builder.Configuration["UiSettings:MicrosoftClientSecret"]!;
-var connectionString = builder.Configuration["UiSettings:ConnectionString"]!;
 
 // Add services to the container.
 builder.Services
     .AddRazorPages().Services
     .AddServerSideBlazor().Services
     .AddMudServices()
-    .AddSqlServerDataAccess(connectionString)
-    .AddAuthentication()
-    .AddMicrosoftAccount(options =>
+    .AddSqlServerDataAccess(builder.Configuration["UiSettings:ConnectionString"]!)
+    .AddAuthentication().Services
+    //.AddMicrosoftAccount(options =>
+    //{
+    //    options.ClientId = builder.Configuration["UiSettings:MicrosoftClientId"]!;
+    //    options.ClientSecret = builder.Configuration["UiSettings:MicrosoftClientSecret"]!;
+    //}).Services
+    .AddAuthorization()
+    .AddMicrosoftIdentityWebAppAuthentication(builder.Configuration, "AzureAd").Services
+    .AddLogging(options =>
     {
-        options.ClientId = clientId;
-        options.ClientSecret = clientSecret;
-    }).Services
-    .AddAuthorization();
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.File("out.log")
+            .CreateLogger();
+        options.AddSerilog(Log.Logger);
+    });
 
 var app = builder.Build();
+
+app.UseHttpLogging();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

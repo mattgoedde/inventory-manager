@@ -1,7 +1,12 @@
 namespace Inventory.Domain.Entities;
 
-public class LocationEntity : TenantConfigurationEntity
+public class LocationEntity : ITenantSecuredEntity, IEntity
 {
+    public Guid Id { get; set; }
+    public Guid TenantId { get; set; }
+    public virtual TenantEntity Tenant { get; set; } = default!;
+
+
     public string Name { get; set; } = string.Empty;
     public Guid LocationTypeId { get; set; }
     public Guid? ParentLocationId { get; set; }

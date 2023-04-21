@@ -1,7 +1,7 @@
 namespace Inventory.Domain.Entities;
 
-public abstract class TenantConfigurationEntity : Entity
+public interface ITenantSecuredEntity
 {
-    public Guid TenantId { get; set; }
-    public virtual TenantEntity Tenant { get; set; } = default!;
+    Guid TenantId { get; set; }
+    TenantEntity Tenant { get; set; }
 }

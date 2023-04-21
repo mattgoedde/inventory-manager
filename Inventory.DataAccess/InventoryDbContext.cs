@@ -6,23 +6,33 @@ namespace Inventory.DataAccess;
 
 public class InventoryDbContext : DbContext
 {
-    public InventoryDbContext(DbContextOptions<InventoryDbContext> options) : base(options) { }
+    private readonly Guid _tenantId;
+
+    public InventoryDbContext(DbContextOptions<InventoryDbContext> options, Guid tenantId) 
+        : base(options) 
+    {
+        ArgumentNullException.ThrowIfNull(tenantId, nameof(tenantId));
+        if (tenantId == Guid.Empty) throw new ArgumentException("Tenant Id cannot be empty", nameof(tenantId));
+
+        _tenantId = tenantId;
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration<LocationEntity>(new LocationEntityConfiguration());
-        modelBuilder.ApplyConfiguration<LocationTypeEntity>(new LocationTypeEntityConfiguration());
-        modelBuilder.ApplyConfiguration<TagEntity>(new TagEntityConfiguration());
-        modelBuilder.ApplyConfiguration<TenantEntity>(new TenantEntityConfiguration());
-        modelBuilder.ApplyConfiguration<TrackedItemEntity>(new TrackedItemEntityConfiguration());
-        modelBuilder.ApplyConfiguration<UntrackedItemEntity>(new UntrackedItemEntityConfiguration());
+        modelBuilder
+            .ApplyConfiguration(new TenantSecuredEntityConfiguration(_tenantId))
+            .ApplyConfiguration(new LocationEntityConfiguration())
+            .ApplyConfiguration(new LocationTypeEntityConfiguration())
+            .ApplyConfiguration(new TagEntityConfiguration())
+            .ApplyConfiguration(new TenantEntityConfiguration())
+            .ApplyConfiguration(new TrackedItemEntityConfiguration())
+            .ApplyConfiguration(new UntrackedItemEntityConfiguration());
     }
 
     public DbSet<TenantEntity> Tenants { get; set; } = default!;
     public DbSet<LocationEntity> Locations { get; set; } = default!;
     public DbSet<LocationTypeEntity> LocationTypes { get; set; } = default!;
     public DbSet<TagEntity> Tags { get; set; } = default!;
-
     public DbSet<TrackedItemEntity> TrackedItems { get; set; } = default!;
     public DbSet<UntrackedItemEntity> UntrackedItems { get; set; } = default!;
 }

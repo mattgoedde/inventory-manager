@@ -1,7 +1,10 @@
 ﻿namespace Inventory.Domain.Entities;
 
-public class ItemEntity : TenantConfigurationEntity
+public class ItemEntity : ITenantSecuredEntity, IEntity
 {
+    public Guid Id { get; set; }
+    public Guid TenantId { get; set; }
+    public virtual TenantEntity Tenant { get; set; } = default!;
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; }
     public string? ImageUrl { get; set; }

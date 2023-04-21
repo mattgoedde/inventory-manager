@@ -1,21 +1,34 @@
 using System.Text;
+using Inventory.Api;
 using Inventory.DataAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.OData;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
-    .AddControllers().Services
+    .AddControllers()
+    .AddOData(options =>
+    {
+        options
+            .Select()
+            .Filter()
+            .OrderBy()
+            .Expand()
+            .Count()
+            .SetMaxTop(null)
+            .AddRouteComponents("odata", EdmModelBuilder.Build());
+    }).Services
     .AddSwaggerGen()
     .AddSqlServerDataAccess(@"Server=(localdb)\mssqllocaldb;Database=Inventory;Trusted_Connection=True;")
-    .AddAuthentication(options => 
+    .AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
     })
-    .AddJwtBearer(options => 
+    .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
@@ -27,7 +40,8 @@ builder.Services
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
         };
-    });
+    }).Services
+    .AddAuthorization();
 
 var app = builder.Build();
 
@@ -40,6 +54,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

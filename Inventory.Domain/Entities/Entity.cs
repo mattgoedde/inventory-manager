@@ -1,6 +1,6 @@
 namespace Inventory.Domain.Entities;
 
-public abstract class Entity
+public interface IEntity
 {
     public Guid Id { get; set; }   
 }

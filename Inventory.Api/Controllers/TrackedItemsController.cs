@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace Inventory.Api.Controllers;
 
-public class TrackedItemController : ODataController
+public class TrackedItemsController : ODataController
 {
     private readonly ITenantSecuredDbContextFactory<InventoryDbContext> _dbContextFactory;
 
-    public TrackedItemController(ITenantSecuredDbContextFactory<InventoryDbContext> dbContextFactory)
+    public TrackedItemsController(ITenantSecuredDbContextFactory<InventoryDbContext> dbContextFactory)
     {
         _dbContextFactory = dbContextFactory;
     }

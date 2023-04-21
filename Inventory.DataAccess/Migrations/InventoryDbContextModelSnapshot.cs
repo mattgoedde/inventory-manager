@@ -50,6 +50,8 @@ namespace Inventory.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("ItemEntity");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("ItemEntity");
@@ -171,8 +173,6 @@ namespace Inventory.DataAccess.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.HasIndex("TenantId");
-
                     b.HasDiscriminator().HasValue("TrackedItemEntity");
                 });
 
@@ -185,9 +185,18 @@ namespace Inventory.DataAccess.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.HasIndex("TenantId");
-
                     b.HasDiscriminator().HasValue("UntrackedItemEntity");
+                });
+
+            modelBuilder.Entity("Inventory.Domain.Entities.ItemEntity", b =>
+                {
+                    b.HasOne("Inventory.Domain.Entities.TenantEntity", "Tenant")
+                        .WithMany("Items")
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("Inventory.Domain.Entities.LocationEntity", b =>
@@ -258,18 +267,10 @@ namespace Inventory.DataAccess.Migrations
                     b.HasOne("Inventory.Domain.Entities.LocationEntity", "Location")
                         .WithMany("TrackedItems")
                         .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Inventory.Domain.Entities.TenantEntity", "Tenant")
-                        .WithMany("TrackedItems")
-                        .HasForeignKey("TenantId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Location");
-
-                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("Inventory.Domain.Entities.UntrackedItemEntity", b =>
@@ -277,18 +278,10 @@ namespace Inventory.DataAccess.Migrations
                     b.HasOne("Inventory.Domain.Entities.LocationEntity", "Location")
                         .WithMany("UntrackedItems")
                         .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Inventory.Domain.Entities.TenantEntity", "Tenant")
-                        .WithMany("UntrackedItems")
-                        .HasForeignKey("TenantId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Location");
-
-                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("Inventory.Domain.Entities.LocationEntity", b =>
@@ -307,15 +300,13 @@ namespace Inventory.DataAccess.Migrations
 
             modelBuilder.Entity("Inventory.Domain.Entities.TenantEntity", b =>
                 {
+                    b.Navigation("Items");
+
                     b.Navigation("LocationTypes");
 
                     b.Navigation("Locations");
 
                     b.Navigation("Tags");
-
-                    b.Navigation("TrackedItems");
-
-                    b.Navigation("UntrackedItems");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,9 +1,12 @@
 using System.Text;
 using Inventory.Api;
+using Inventory.Api.Swagger;
 using Inventory.DataAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.OData;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +23,7 @@ builder.Services
             .SetMaxTop(null)
             .AddRouteComponents("odata", EdmModelBuilder.Build());
     }).Services
+    .AddTransient<IConfigureOptions<SwaggerGenOptions>, SwaggerOptions>()
     .AddSwaggerGen()
     .AddSqlServerDataAccess(@"Server=(localdb)\mssqllocaldb;Database=Inventory;Trusted_Connection=True;")
     .AddAuthentication(options =>
@@ -30,11 +34,15 @@ builder.Services
     })
     .AddJwtBearer(options =>
     {
+        var secretString = builder.Configuration["JwtSettings:Key"];
+        var secret = Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]!);
+        var key = new SymmetricSecurityKey(secret);
+
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
             ValidAudience = builder.Configuration["JwtSettings:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Key"]!)),
+            IssuerSigningKey = key,
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,

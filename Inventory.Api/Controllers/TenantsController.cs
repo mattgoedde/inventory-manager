@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace Inventory.Api.Controllers;
 
-public class LocationController : ODataController
+public class TenantsController : ODataController
 {
     private readonly ITenantSecuredDbContextFactory<InventoryDbContext> _dbContextFactory;
 
-    public LocationController(ITenantSecuredDbContextFactory<InventoryDbContext> dbContextFactory)
+    public TenantsController(ITenantSecuredDbContextFactory<InventoryDbContext> dbContextFactory)
     {
         _dbContextFactory = dbContextFactory;
     }
@@ -20,9 +20,9 @@ public class LocationController : ODataController
     [Authorize]
     [RequireClaim("tenant")]
     [EnableQuery]
-    public ActionResult<IEnumerable<LocationEntity>> Get()
+    public ActionResult<IEnumerable<TenantEntity>> Get()
     {
         using var context = _dbContextFactory.CreateAsync(HttpContext.User.TenantId());
-        return Ok(context.Locations);
+        return Ok(context.Tenants);
     }
 }

@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace Inventory.Api.Controllers;
 
-public class UntrackedItemController : ODataController
+public class LocationsController : ODataController
 {
     private readonly ITenantSecuredDbContextFactory<InventoryDbContext> _dbContextFactory;
 
-    public UntrackedItemController(ITenantSecuredDbContextFactory<InventoryDbContext> dbContextFactory)
+    public LocationsController(ITenantSecuredDbContextFactory<InventoryDbContext> dbContextFactory)
     {
         _dbContextFactory = dbContextFactory;
     }
@@ -20,9 +20,9 @@ public class UntrackedItemController : ODataController
     [Authorize]
     [RequireClaim("tenant")]
     [EnableQuery]
-    public ActionResult<IEnumerable<UntrackedItemEntity>> Get()
+    public ActionResult<IEnumerable<LocationEntity>> Get()
     {
         using var context = _dbContextFactory.CreateAsync(HttpContext.User.TenantId());
-        return Ok(context.UntrackedItems);
+        return Ok(context.Locations);
     }
 }

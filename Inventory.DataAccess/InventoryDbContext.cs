@@ -8,8 +8,8 @@ public class InventoryDbContext : DbContext
 {
     private readonly Guid _tenantId;
 
-    public InventoryDbContext(DbContextOptions<InventoryDbContext> options, Guid tenantId) 
-        : base(options) 
+    public InventoryDbContext(DbContextOptions<InventoryDbContext> options, Guid tenantId)
+        : base(options)
     {
         ArgumentNullException.ThrowIfNull(tenantId, nameof(tenantId));
         if (tenantId == Guid.Empty) throw new ArgumentException("Tenant Id cannot be empty", nameof(tenantId));
@@ -17,16 +17,20 @@ public class InventoryDbContext : DbContext
         _tenantId = tenantId;
     }
 
+    public InventoryDbContext(DbContextOptions<InventoryDbContext> options)
+        : base(options)
+    {
+        _tenantId = Guid.NewGuid();
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
-            .ApplyConfiguration(new TenantSecuredEntityConfiguration(_tenantId))
-            .ApplyConfiguration(new LocationEntityConfiguration())
-            .ApplyConfiguration(new LocationTypeEntityConfiguration())
-            .ApplyConfiguration(new TagEntityConfiguration())
-            .ApplyConfiguration(new TenantEntityConfiguration())
-            .ApplyConfiguration(new TrackedItemEntityConfiguration())
-            .ApplyConfiguration(new UntrackedItemEntityConfiguration());
+            .ApplyConfiguration(new LocationEntityConfiguration(_tenantId))
+            .ApplyConfiguration(new LocationTypeEntityConfiguration(_tenantId))
+            .ApplyConfiguration(new TagEntityConfiguration(_tenantId))
+            .ApplyConfiguration(new TenantEntityConfiguration(_tenantId))
+            .ApplyConfiguration(new ItemEntityConfiguration(_tenantId));
     }
 
     public DbSet<TenantEntity> Tenants { get; set; } = default!;

@@ -1,5 +1,6 @@
 using Inventory.DataAccess;
 using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.UI;
 using MudBlazor.Services;
 using Serilog;
 
@@ -7,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services
-    .AddRazorPages().Services
+    .AddRazorPages().AddMicrosoftIdentityUI().Services
     .AddServerSideBlazor().Services
     .AddMudServices()
     .AddSqlServerDataAccess(builder.Configuration["UiSettings:ConnectionString"]!)
@@ -49,5 +50,7 @@ app.UseAuthorization();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+
+app.MapControllers();
 
 app.Run();

@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Inventory.DataAccess\Inventory.DataAccess.csproj" />
     <ProjectReference Include="..\Inventory.Domain\Inventory.Domain.csproj" />
+    <ProjectReference Include="..\Inventory.Logic\Inventory.Logic.csproj" />
   </ItemGroup>
 
 </Project>

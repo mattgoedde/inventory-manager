@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace Inventory.Api.Security;
+namespace Inventory.Logic.Security;
 
 public static class ClaimsPrincipalExtensions
 {

@@ -25,7 +25,7 @@ builder.Services
     }).Services
     .AddTransient<IConfigureOptions<SwaggerGenOptions>, SwaggerOptions>()
     .AddSwaggerGen()
-    .AddSqlServerDataAccess(@"Server=(localdb)\mssqllocaldb;Database=Inventory;Trusted_Connection=True;")
+    .AddSqlServerDataAccess(builder.Configuration["ApiSettings:ConnectionString"]!)
     .AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Inventory.Api.Security;
+namespace Inventory.Logic.Security;
 
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
 public class RequireClaimValueAttribute : Attribute, IAuthorizationFilter

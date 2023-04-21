@@ -1,6 +1,6 @@
-﻿using Inventory.Api.Security;
-using Inventory.DataAccess;
+﻿using Inventory.DataAccess;
 using Inventory.Domain.Entities;
+using Inventory.Logic.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;

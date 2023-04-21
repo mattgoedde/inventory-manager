@@ -1,5 +1,8 @@
 ﻿@page "/locations"
 
+@attribute [Authorize]
+@attribute [RequireClaim("tenant")]
+
 @inject ITenantSecuredDbContextFactory<InventoryDbContext> DbContextFactory
 
 <h3>Locations</h3>

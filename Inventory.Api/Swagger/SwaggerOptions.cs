@@ -8,6 +8,8 @@ public class SwaggerOptions : IConfigureOptions<SwaggerGenOptions>
 {
     public void Configure(SwaggerGenOptions options)
     {
+        options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+
         options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
         {
             In = ParameterLocation.Header,

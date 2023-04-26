@@ -8,5 +8,5 @@ public class TagEntity : ITenantSecuredEntity, IEntity
 
     public string Name { get; set; } = string.Empty;
 
-    public virtual ICollection<ItemEntity> Items { get; set; } = new List<ItemEntity>();
+    public virtual ICollection<ItemEntity> Items { get; } = new List<ItemEntity>();
 }

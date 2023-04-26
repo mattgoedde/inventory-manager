@@ -5,8 +5,8 @@ public class TenantEntity : IEntity
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
 
-    public virtual IEnumerable<LocationEntity> Locations { get; } = Enumerable.Empty<LocationEntity>();
-    public virtual IEnumerable<LocationTypeEntity> LocationTypes { get; } = Enumerable.Empty<LocationTypeEntity>();
-    public virtual IEnumerable<TagEntity> Tags { get; } = Enumerable.Empty<TagEntity>();
-    public virtual IEnumerable<ItemEntity> Items { get; } = Enumerable.Empty<ItemEntity>();
+    public virtual ICollection<LocationEntity> Locations { get; } = new List<LocationEntity>();
+    public virtual ICollection<LocationTypeEntity> LocationTypes { get; } = new List<LocationTypeEntity>();
+    public virtual ICollection<TagEntity> Tags { get; } = new List<TagEntity>();
+    public virtual ICollection<ItemEntity> Items { get; } = new List<ItemEntity>();
 }

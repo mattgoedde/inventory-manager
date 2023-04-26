@@ -5,7 +5,7 @@ namespace Inventory.DataAccess;
 public interface ITenantSecuredDbContextFactory<out TDbContext>
     where TDbContext : DbContext
 {
-    TDbContext CreateAsync(Guid tenantId);
+    TDbContext Create(Guid tenantId);
 }
 
 internal class InventoryDbContextFactory : ITenantSecuredDbContextFactory<InventoryDbContext>
@@ -17,5 +17,5 @@ internal class InventoryDbContextFactory : ITenantSecuredDbContextFactory<Invent
         _options = options;
     }
 
-    public InventoryDbContext CreateAsync(Guid tenantId) => new(_options, tenantId);
+    public InventoryDbContext Create(Guid tenantId) => new(_options, tenantId);
 }

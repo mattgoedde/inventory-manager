@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace Inventory.Api.Controllers;
 
+[Authorize]
+[RequireClaim("tenant")]
 public class TrackedItemsController : ODataController
 {
     private readonly ITenantSecuredDbContextFactory<InventoryDbContext> _dbContextFactory;
@@ -17,12 +19,10 @@ public class TrackedItemsController : ODataController
         _dbContextFactory = dbContextFactory;
     }
 
-    [Authorize]
-    [RequireClaim("tenant")]
     [EnableQuery]
     public ActionResult<IEnumerable<TrackedItemEntity>> Get()
     {
-        using var context = _dbContextFactory.CreateAsync(HttpContext.User.TenantId());
+        using var context = _dbContextFactory.Create(HttpContext.User.TenantId());
         return Ok(context.TrackedItems);
     }
 }

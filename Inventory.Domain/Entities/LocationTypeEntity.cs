@@ -8,5 +8,5 @@ public class LocationTypeEntity : ITenantSecuredEntity, IEntity
 
     public string Name { get; set; } = string.Empty;
 
-    public virtual IEnumerable<LocationEntity> Locations { get; } = Enumerable.Empty<LocationEntity>();
+    public virtual ICollection<LocationEntity> Locations { get; } = new List<LocationEntity>();
 }

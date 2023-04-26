@@ -1,7 +1,9 @@
+using System.Reflection;
 using System.Text;
 using Inventory.Api;
 using Inventory.Api.Swagger;
 using Inventory.DataAccess;
+using Inventory.Logic;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.OData;
 using Microsoft.Extensions.Options;
@@ -49,7 +51,8 @@ builder.Services
             ValidateIssuerSigningKey = true,
         };
     }).Services
-    .AddAuthorization();
+    .AddAuthorization()
+    .AddLogic();
 
 var app = builder.Build();
 

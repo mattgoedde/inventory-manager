@@ -9,9 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.DataAccess", "Inv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Domain", "Inventory.Domain\Inventory.Domain.csproj", "{8C6D6319-CAD2-4D17-BB0B-17DBE17B57CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Ui", "Inventory.Ui\Inventory.Ui.csproj", "{89E47409-24F7-414E-988C-7B755F1A821C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Logic", "Inventory.Logic\Inventory.Logic.csproj", "{F71DC9A8-089E-4B9B-BF84-95FF3FA7AE14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Logic", "Inventory.Logic\Inventory.Logic.csproj", "{F71DC9A8-089E-4B9B-BF84-95FF3FA7AE14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +29,6 @@ Global
 		{8C6D6319-CAD2-4D17-BB0B-17DBE17B57CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C6D6319-CAD2-4D17-BB0B-17DBE17B57CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C6D6319-CAD2-4D17-BB0B-17DBE17B57CE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{89E47409-24F7-414E-988C-7B755F1A821C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{89E47409-24F7-414E-988C-7B755F1A821C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{89E47409-24F7-414E-988C-7B755F1A821C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{89E47409-24F7-414E-988C-7B755F1A821C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F71DC9A8-089E-4B9B-BF84-95FF3FA7AE14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F71DC9A8-089E-4B9B-BF84-95FF3FA7AE14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F71DC9A8-089E-4B9B-BF84-95FF3FA7AE14}.Release|Any CPU.ActiveCfg = Release|Any CPU

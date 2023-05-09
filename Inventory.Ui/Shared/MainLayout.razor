@@ -1,0 +1,12 @@
+﻿@inherits LayoutComponentBase
+
+<PageTitle>Inventory Manager</PageTitle>
+
+<ErrorBoundary>
+    <ChildContent>
+        @Body
+    </ChildContent>
+    <ErrorContent Context="ex">
+            <p class="error">@ex.Message</p>
+    </ErrorContent>
+</ErrorBoundary>

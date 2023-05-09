@@ -40,23 +40,12 @@ public class LocationHandler :
     {
         using var context = _dbContextFactory.Create(request.TenantId);
 
-        var rootLocation = await context.Locations.Include(l => l.ChildLocations).FirstOrDefaultAsync(l => l.ParentLocationId == null && l.Name.Contains("Root") && l.LocationType.Name.Contains("Default"));
+        var rootLocation = await context.Locations
+            .Include(l => l.ChildLocations)
+            .FirstOrDefaultAsync(l => l.ParentLocationId == null && l.Name.Contains("Root") && l.LocationType.Name.Contains("Default"), cancellationToken: cancellationToken);
 
         if (rootLocation is null) return null;
 
-        var tree = await RecursiveLocationTreeLoader(rootLocation, context);
-
-        return _mapper.Map<LocationDto>(tree);
-    }
-
-    private async Task<LocationEntity> RecursiveLocationTreeLoader(LocationEntity root, InventoryDbContext context)
-    {
-        if (!root.ChildLocations.Any()) return root;
-
-        foreach (var child in root.ChildLocations)
-        {
-            var entity = await context.Locations.Include(l => l.ChildLocations).FirstOrDefaultAsync(l => l.Id == child.Id);
-
-        }
+        return _mapper.Map<LocationDto>(rootLocation);
     }
 }
